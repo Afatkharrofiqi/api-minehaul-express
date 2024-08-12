@@ -1,0 +1,25 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-minehaul-express
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: npm run start:dev # Use ts-node-dev for development, or replace with 'npm run build && node dist/server.js' for production
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-minehaul-express.rule=Host(`api-minehaul-express.dev.local`)"
+      - "traefik.http.routers.api-minehaul-express.tls=true"
+      - "traefik.http.services.api-minehaul-express-service.loadbalancer.server.port=3000"
+
+networks:
+  traefik:
+    external: true
