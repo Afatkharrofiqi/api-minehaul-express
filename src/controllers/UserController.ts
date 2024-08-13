@@ -1,15 +1,13 @@
 import { Response } from 'express';
-import { BaseController } from './BaseController';
-import { ResponseHandler } from '../utils/ResponseHandler';
-import { UserService } from '../services/UserService';
+
 import { AuthenticatedRequest } from '../requests/AuthenticatedRequest';
+import { UserService } from '../services/UserService';
+import { ResponseHandler } from '../utils/ResponseHandler';
+import { BaseController } from './BaseController';
 
 export class UserController extends BaseController {
-  private userService: UserService;
-
-  constructor() {
+  constructor(private readonly userService: UserService) {
     super();
-    this.userService = new UserService();
   }
 
   async me(req: AuthenticatedRequest, res: Response) {

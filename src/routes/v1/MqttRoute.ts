@@ -1,18 +1,21 @@
 import { Router } from 'express';
-import MqttController from '../../controllers/MqttController';
 
-class MqttRoutes {
-  public router: Router;
+import { MqttController } from '../../controllers/MqttController';
 
-  constructor() {
-    this.router = Router();
+export class MqttRoute {
+  constructor(
+    private readonly mqttController: MqttController,
+    private readonly router: Router
+  ) {
     this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
-    this.router.post('/subscribe', MqttController.subscribeToTopic);
-    this.router.post('/publish', MqttController.publishToTopic);
+    this.router.post('/subscribe', this.mqttController.subscribeToTopic);
+    this.router.post('/publish', this.mqttController.publishToTopic);
+  }
+
+  public getRouter() {
+    return this.router;
   }
 }
-
-export default new MqttRoutes().router;

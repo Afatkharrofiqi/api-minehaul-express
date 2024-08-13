@@ -1,11 +1,11 @@
-class DatabaseConfig {
-  public type: 'postgres';
-  public host: string;
-  public port: number;
-  public username: string;
-  public password: string;
-  public database: string;
-  public synchronize: boolean;
+export class DatabaseConfig {
+  public readonly type: 'postgres';
+  public readonly host: string;
+  public readonly port: number;
+  public readonly username: string;
+  public readonly password: string;
+  public readonly database: string;
+  public readonly synchronize: boolean;
 
   constructor() {
     this.type = 'postgres';
@@ -17,5 +17,3 @@ class DatabaseConfig {
     this.synchronize = process.env.DB_SYNCHRONIZE === 'true'; // Ensure this is false in production
   }
 }
-
-export default new DatabaseConfig();

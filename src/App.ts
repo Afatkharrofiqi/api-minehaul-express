@@ -1,14 +1,18 @@
 import express, { Application, Request, Response } from 'express';
-import { AppDatabase } from './config/Database';
+import { DataSource } from 'typeorm';
+
+import { AppConfig } from './configs/AppConfig';
 import { RequestLogger } from './middlewares/RequestLogger';
-import ApiRouter from './routes/ApiRouter';
-import MqttService from './services/MqttService';
+import { ApiRouter } from './routes/ApiRouter';
+import { MqttService } from './services/MqttService';
 
-class App {
-  public app: Application;
-
-  constructor() {
-    this.app = express();
+export class App {
+  constructor(
+    private readonly app: Application,
+    private readonly apiRouter: ApiRouter,
+    private readonly dataSource: DataSource,
+    private readonly mqttService: MqttService
+  ) {
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeDatabase();
@@ -22,7 +26,7 @@ class App {
 
   private initializeRoutes(): void {
     this.app.get('/', this.handleRootRoute);
-    this.app.use('/api', ApiRouter);
+    this.app.use('/api', this.apiRouter.getRouter());
   }
 
   private handleRootRoute(req: Request, res: Response): void {
@@ -31,7 +35,7 @@ class App {
 
   private async initializeDatabase(): Promise<void> {
     try {
-      await AppDatabase.initialize();
+      await this.dataSource.initialize();
       console.log('Database connected successfully');
     } catch (error) {
       console.error('Failed to connect to the database:', error);
@@ -39,11 +43,12 @@ class App {
   }
 
   private initializeMqtt(): void {
-    const mqttService = new MqttService();
-    mqttService.getClient().on('message', (topic: string, message: Buffer) => {
-      console.log(`Received message on topic ${topic}: ${message.toString()}`);
+    this.mqttService.listen();
+  }
+
+  public serve() {
+    this.app.listen(AppConfig.port, () => {
+      console.log(`Server is running on port ${AppConfig.port}`);
     });
   }
 }
-
-export default new App().app;

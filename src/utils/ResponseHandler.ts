@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { ZodError } from 'zod';
-import AppConfig from '../config/AppConfig';
+
+import { AppConfig } from '../configs/AppConfig';
 
 interface SuccessResponse {
   data: unknown;

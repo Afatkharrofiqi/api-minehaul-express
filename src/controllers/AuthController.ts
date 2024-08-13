@@ -1,17 +1,15 @@
 import { Response } from 'express';
-import { AuthService } from '../services/AuthService';
-import { BaseController } from './BaseController';
-import { ResponseHandler } from '../utils/ResponseHandler';
+
 import { LoginRequest } from '../requests/LoginRequest';
-import { VerifyTokenRequest } from '../requests/VerifyTokenRequest';
 import { RegisterRequest } from '../requests/RegisterRequest';
+import { VerifyTokenRequest } from '../requests/VerifyTokenRequest';
+import { AuthService } from '../services/AuthService';
+import { ResponseHandler } from '../utils/ResponseHandler';
+import { BaseController } from './BaseController';
 
 export class AuthController extends BaseController {
-  private authService: AuthService;
-
-  constructor() {
+  constructor(private readonly authService: AuthService) {
     super();
-    this.authService = new AuthService();
   }
 
   async register(req: RegisterRequest, res: Response) {

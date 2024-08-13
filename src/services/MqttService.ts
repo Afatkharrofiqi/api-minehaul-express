@@ -1,18 +1,13 @@
 import mqtt, { MqttClient } from 'mqtt';
-import MqttConfig from '../config/MqttConfig';
 
-class MqttService {
+export class MqttService {
   private client: MqttClient;
 
-  constructor() {
-    this.client = mqtt.connect(MqttConfig.brokerUrl);
+  constructor(brokerUrl: string) {
+    this.client = mqtt.connect(brokerUrl);
 
     this.client.on('connect', () => {
       console.log('Connected to MQTT broker');
-    });
-
-    this.client.on('message', (topic, message) => {
-      console.log(`Received message: ${message.toString()} on topic: ${topic}`);
     });
   }
 
@@ -36,9 +31,13 @@ class MqttService {
     });
   }
 
+  listen() {
+    this.client.on('message', (topic, message) => {
+      console.log(`Received message: ${message.toString()} on topic: ${topic}`);
+    });
+  }
+
   getClient(): MqttClient {
     return this.client;
   }
 }
-
-export default MqttService;

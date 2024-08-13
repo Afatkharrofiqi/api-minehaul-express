@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken';
+
+import { JWTConfig } from '../configs/JWTConfig';
 import { TokenPayload } from '../requests/AuthenticatedRequest';
-import JWTConfig from '../config/JWTConfig';
 
 export class JWT {
   // Generate an access token

@@ -1,14 +1,10 @@
 import { DataSource } from 'typeorm';
-import { AppDatabase } from '../config/Database';
+
 import { User } from '../models/User';
 import { JWT } from '../utils/JWT';
 
 export class AuthService {
-  private dataSource: DataSource;
-
-  constructor() {
-    this.dataSource = AppDatabase.getDataSource();
-  }
+  constructor(private readonly dataSource: DataSource) {}
 
   async register(username: string, password: string) {
     const userRepo = this.dataSource.getRepository(User);

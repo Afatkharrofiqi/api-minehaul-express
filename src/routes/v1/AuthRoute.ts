@@ -1,17 +1,16 @@
 import { Router } from 'express';
+
 import { AuthController } from '../../controllers/AuthController';
-import { RequestValidator } from '../../utils/RequestValidator';
 import { loginSchema } from '../../requests/LoginRequest';
-import { verifyTokenSchema } from '../../requests/VerifyTokenRequest';
 import { registerSchema } from '../../requests/RegisterRequest';
+import { verifyTokenSchema } from '../../requests/VerifyTokenRequest';
+import { RequestValidator } from '../../utils/RequestValidator';
 
-class AuthRoutes {
-  public router: Router;
-  private authController: AuthController;
-
-  constructor() {
-    this.router = Router();
-    this.authController = new AuthController();
+export class AuthRoute {
+  constructor(
+    private readonly authController: AuthController,
+    private readonly router: Router
+  ) {
     this.initializeRoutes();
   }
 
@@ -32,6 +31,8 @@ class AuthRoutes {
       this.authController.refreshToken
     );
   }
-}
 
-export default new AuthRoutes().router;
+  public getRouter() {
+    return this.router;
+  }
+}

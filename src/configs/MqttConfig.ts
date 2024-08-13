@@ -1,4 +1,4 @@
-class MqttConfig {
+export class MqttConfig {
   public brokerUrl: string;
   public options: {
     username: string;
@@ -15,5 +15,3 @@ class MqttConfig {
     };
   }
 }
-
-export default new MqttConfig();

@@ -1,20 +1,21 @@
 import { DataSource } from 'typeorm';
-import { User } from '../models/User';
-import DatabaseConfig from './DatabaseConfig';
 
-class Database {
+import { User } from '../models/User';
+import { DatabaseConfig } from './DatabaseConfig';
+
+export class Database {
   private dataSource: DataSource;
 
-  constructor() {
+  constructor(dbConfig: DatabaseConfig) {
     this.dataSource = new DataSource({
-      type: DatabaseConfig.type,
-      host: DatabaseConfig.host,
-      port: DatabaseConfig.port,
-      username: DatabaseConfig.username,
-      password: DatabaseConfig.password,
-      database: DatabaseConfig.database,
+      type: dbConfig.type,
+      host: dbConfig.host,
+      port: dbConfig.port,
+      username: dbConfig.username,
+      password: dbConfig.password,
+      database: dbConfig.database,
       entities: [User],
-      synchronize: DatabaseConfig.synchronize,
+      synchronize: dbConfig.synchronize,
     });
   }
 
@@ -32,5 +33,3 @@ class Database {
     return this.dataSource;
   }
 }
-
-export const AppDatabase = new Database();

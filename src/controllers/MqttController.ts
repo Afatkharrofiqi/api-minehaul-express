@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
-import MqttService from '../services/MqttService';
+
+import { MqttService } from '../services/MqttService';
 import { ResponseHandler } from '../utils/ResponseHandler';
 import { BaseController } from './BaseController';
 
-class MqttController extends BaseController {
-  private mqttService: MqttService;
-
-  constructor() {
+export class MqttController extends BaseController {
+  constructor(private readonly mqttService: MqttService) {
     super();
-    this.mqttService = new MqttService();
   }
 
   public subscribeToTopic(req: Request, res: Response): void {
@@ -29,5 +27,3 @@ class MqttController extends BaseController {
     );
   }
 }
-
-export default new MqttController();

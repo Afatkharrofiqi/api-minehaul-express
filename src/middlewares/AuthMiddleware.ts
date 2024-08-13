@@ -1,6 +1,7 @@
-import { Response, NextFunction } from 'express';
-import { JWT } from '../utils/JWT';
+import { NextFunction, Response } from 'express';
+
 import { AuthenticatedRequest } from '../requests/AuthenticatedRequest';
+import { JWT } from '../utils/JWT';
 import { ResponseHandler } from '../utils/ResponseHandler';
 
 export class AuthMiddleware {

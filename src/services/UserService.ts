@@ -1,13 +1,9 @@
 import { DataSource } from 'typeorm';
-import { AppDatabase } from '../config/Database';
+
 import { User } from '../models/User';
 
 export class UserService {
-  private dataSource: DataSource;
-
-  constructor() {
-    this.dataSource = AppDatabase.getDataSource();
-  }
+  constructor(private readonly dataSource: DataSource) {}
 
   async me(username: string) {
     const userRepo = this.dataSource.getRepository(User);
