@@ -1,35 +1,26 @@
 import * as jwt from 'jsonwebtoken';
 import { TokenPayload } from '../requests/AuthenticatedRequest';
+import JWTConfig from '../config/JWTConfig';
 
 export class JWT {
   // Generate an access token
-  static generateToken(payload: object, expiresIn: string = '1h'): string {
-    return jwt.sign(
-      payload,
-      process.env.JWT_SECRET || 'default_access_secret',
-      { expiresIn }
-    );
+  static generateToken(payload: object): string {
+    return jwt.sign(payload, JWTConfig.secret, {
+      expiresIn: JWTConfig.tokenExpiry,
+    });
   }
 
   // Generate a refresh token with a longer expiration time
-  static generateRefreshToken(
-    payload: object,
-    expiresIn: string = '7d'
-  ): string {
-    return jwt.sign(
-      payload,
-      process.env.JWT_REFRESH_SECRET || 'default_refresh_secret',
-      { expiresIn }
-    );
+  static generateRefreshToken(payload: object): string {
+    return jwt.sign(payload, JWTConfig.refreshSecret, {
+      expiresIn: JWTConfig.refreshTokenExpiry,
+    });
   }
 
   // Verify an access token
   static verifyToken(token: string): TokenPayload {
     try {
-      return jwt.verify(
-        token,
-        process.env.JWT_SECRET || 'default_access_secret'
-      ) as TokenPayload;
+      return jwt.verify(token, JWTConfig.secret) as TokenPayload;
     } catch {
       throw new Error('Invalid token');
     }
@@ -38,10 +29,7 @@ export class JWT {
   // Verify a refresh token
   static verifyRefreshToken(token: string): TokenPayload {
     try {
-      return jwt.verify(
-        token,
-        process.env.JWT_REFRESH_SECRET || 'default_refresh_secret'
-      ) as TokenPayload;
+      return jwt.verify(token, JWTConfig.refreshSecret) as TokenPayload;
     } catch {
       throw new Error('Invalid refresh token');
     }

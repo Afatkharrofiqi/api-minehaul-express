@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { ZodError } from 'zod';
+import AppConfig from '../config/AppConfig';
 
 interface SuccessResponse {
   data: unknown;
@@ -66,8 +67,7 @@ export class ResponseHandler {
         type: 'error',
         detail: {
           message: error.message,
-          stack:
-            process.env.NODE_ENV === 'development' ? error.stack : undefined,
+          stack: AppConfig.nodeEnv === 'development' ? error.stack : undefined,
         },
       };
     } else {

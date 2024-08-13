@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { UserController } from '../../controllers/UserController';
 import { AuthMiddleware } from '../../middlewares/AuthMiddleware';
 
-export class UserRoutes {
+class UserRoutes {
   public router: Router;
   private userController: UserController;
 
@@ -16,3 +16,5 @@ export class UserRoutes {
     this.router.get('/', AuthMiddleware.verifyToken, this.userController.me);
   }
 }
+
+export default new UserRoutes().router;

@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { AppDatabase } from '../config/database';
+import { AppDatabase } from '../config/Database';
 import { User } from '../models/User';
 import { JWT } from '../utils/JWT';
 

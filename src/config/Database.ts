@@ -1,19 +1,20 @@
 import { DataSource } from 'typeorm';
 import { User } from '../models/User';
+import DatabaseConfig from './DatabaseConfig';
 
 class Database {
   private dataSource: DataSource;
 
   constructor() {
     this.dataSource = new DataSource({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: String(process.env.DB_PASSWORD),
-      database: process.env.DB_NAME,
+      type: DatabaseConfig.type,
+      host: DatabaseConfig.host,
+      port: DatabaseConfig.port,
+      username: DatabaseConfig.username,
+      password: DatabaseConfig.password,
+      database: DatabaseConfig.database,
       entities: [User],
-      synchronize: true, // Disable in production
+      synchronize: DatabaseConfig.synchronize,
     });
   }
 

@@ -5,7 +5,7 @@ import { loginSchema } from '../../requests/LoginRequest';
 import { verifyTokenSchema } from '../../requests/VerifyTokenRequest';
 import { registerSchema } from '../../requests/RegisterRequest';
 
-export class AuthRoutes {
+class AuthRoutes {
   public router: Router;
   private authController: AuthController;
 
@@ -33,3 +33,5 @@ export class AuthRoutes {
     );
   }
 }
+
+export default new AuthRoutes().router;
