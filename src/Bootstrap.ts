@@ -25,8 +25,9 @@ export class Bootstrap {
   }
 
   public init(): App {
-    const authService = new AuthService(this.db.getDataSource());
-    const userService = new UserService(this.db.getDataSource());
+    const dataSource = this.db.getDataSource();
+    const authService = new AuthService(dataSource);
+    const userService = new UserService(dataSource);
     const mqttService = new MqttService(this.mqttConfig.brokerUrl);
 
     const authController = new AuthController(authService);
@@ -39,12 +40,7 @@ export class Bootstrap {
 
     const apiRouter = new ApiRouter(authRoute, userRoute, mqttRoute, Router());
 
-    const app = new App(
-      express(),
-      apiRouter,
-      this.db.getDataSource(),
-      mqttService
-    );
+    const app = new App(express(), apiRouter, dataSource, mqttService);
 
     return app;
   }
