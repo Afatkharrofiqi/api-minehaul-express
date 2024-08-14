@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Command to run the app
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/Bootstrap.js"]

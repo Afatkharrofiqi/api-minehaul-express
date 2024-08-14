@@ -2,7 +2,6 @@ import express, { Router } from 'express';
 
 import { App } from './App';
 import { Database } from './configs/Database';
-import { DatabaseConfig } from './configs/DatabaseConfig';
 import { MqttConfig } from './configs/MqttConfig';
 import { AuthController } from './controllers/AuthController';
 import { MqttController } from './controllers/MqttController';
@@ -20,7 +19,7 @@ export class Bootstrap {
   private mqttConfig: MqttConfig;
 
   constructor() {
-    this.db = new Database(new DatabaseConfig());
+    this.db = new Database();
     this.mqttConfig = new MqttConfig();
   }
 

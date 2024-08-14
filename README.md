@@ -14,15 +14,15 @@ This is a Node.js backend application built with Express.js and TypeScript, desi
 
     api-minehaul-express/
     ├── src/
-    | ├── configs/
-    │ ├── controllers/
-    │ ├── middlewares/
-    │ ├── models/
-    │ ├── requests/
-    │ ├── routes/
-    | | └── v1/
-    │ ├── services/
-    │ └── utils/
+    │   ├── config/
+    │   ├── controllers/
+    │   ├── middlewares/
+    │   ├── models/
+    │   ├── requests/
+    │   ├── routes/
+    │   │   └── v1/
+    │   ├── services/
+    │   └── utils/
     ├── .env.example
     ├── Dockerfile
     ├── docker-compose.yml
@@ -35,34 +35,43 @@ This is a Node.js backend application built with Express.js and TypeScript, desi
    ```bash
    git clone https://github.com/Afatkharrofiqi/api-minehaul-express.git
    cd api-minehaul-express
+   ```
 
 2. Install dependencies:
     ```bash
     npm install
+    ```
 
 3. Set up environment variables copy **.env.example** to **.env** and update the necessary
     ```bash
-    DB_HOST=postgresdb
+    DB_HOST=postgres-db
     DB_PORT=5432
     DB_USERNAME=user
     DB_PASSWORD=pass
     DB_NAME=minehaul
+    DB_SYNCHRONIZE=true
+
     JWT_SECRET=secret
     JWT_REFRESH_SECRET=refreshsecret
+
     PORT=3000
+    
+    MQTT_BROKER_URL=mqtt://mqtt
+    ```
 
 4. Run the application:
-    ```
+    ```bash
     npm run start:dev 
+    ```
 
 ## Docker Deployment
 
 1. Build and run the containers:
-   ```
+   ```bash
    docker-compose up --build -d
+   ```
 
-
-2. Access the API at https://api-minehaul-express.dev.local.
+2. Access the API at http://localhost:3000
 
 ## Usage
 

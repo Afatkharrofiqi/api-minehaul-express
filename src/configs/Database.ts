@@ -6,16 +6,16 @@ import { DatabaseConfig } from './DatabaseConfig';
 export class Database {
   private dataSource: DataSource;
 
-  constructor(dbConfig: DatabaseConfig) {
+  constructor() {
     this.dataSource = new DataSource({
-      type: dbConfig.type,
-      host: dbConfig.host,
-      port: dbConfig.port,
-      username: dbConfig.username,
-      password: dbConfig.password,
-      database: dbConfig.database,
+      type: DatabaseConfig.type,
+      host: DatabaseConfig.host,
+      port: DatabaseConfig.port,
+      username: DatabaseConfig.username,
+      password: DatabaseConfig.password,
+      database: DatabaseConfig.database,
       entities: [User],
-      synchronize: dbConfig.synchronize,
+      synchronize: DatabaseConfig.synchronize,
     });
   }
 

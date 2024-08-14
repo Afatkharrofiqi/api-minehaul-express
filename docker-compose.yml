@@ -12,14 +12,54 @@ services:
     volumes:
       - .:/app
     command: npm run start:dev # Use ts-node-dev for development, or replace with 'npm run build && node dist/server.js' for production
+    depends_on:
+      - postgres
+      - mqtt
     networks:
-      - traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api-minehaul-express.rule=Host(`api-minehaul-express.dev.local`)"
-      - "traefik.http.routers.api-minehaul-express.tls=true"
-      - "traefik.http.services.api-minehaul-express-service.loadbalancer.server.port=3000"
+      - minehaulnet
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - minehaulnet
+
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt
+    restart: unless-stopped
+    ports:
+      - '1883:1883'
+      - '9001:9001'
+    volumes:
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_config:/mosquitto/config
+      - mosquitto_log:/mosquitto/log
+    command: >
+      sh -c 'echo "listener 1883" > /mosquitto/config/mosquitto.conf &&
+             echo "allow_anonymous true" >> /mosquitto/config/mosquitto.conf &&
+             mosquitto -c /mosquitto/config/mosquitto.conf'
+    networks:
+      - minehaulnet
+
+volumes:
+  postgres_data:
+  mosquitto_data:
+  mosquitto_config:
+  mosquitto_log:
+
 
 networks:
-  traefik:
-    external: true
+  minehaulnet:
+    driver: bridge
