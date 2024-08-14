@@ -14,7 +14,7 @@ This is a Node.js backend application built with Express.js and TypeScript, desi
 
     api-minehaul-express/
     ├── src/
-    │   ├── config/
+    │   ├── configs/
     │   ├── controllers/
     │   ├── middlewares/
     │   ├── models/
