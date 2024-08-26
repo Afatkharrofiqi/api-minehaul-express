@@ -21,6 +21,7 @@ This is a Node.js backend application built with Express.js and TypeScript, desi
     │   ├── requests/
     │   ├── routes/
     │   │   └── v1/
+    │   ├── seeds/
     │   ├── services/
     │   └── utils/
     ├── .env.example
