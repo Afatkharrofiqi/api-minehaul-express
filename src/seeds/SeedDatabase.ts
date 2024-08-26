@@ -1,23 +1,13 @@
-import { DataSource } from 'typeorm';
-
+import { Database } from '../configs/Database';
 import { Group } from '../models/Group';
 import { Menu } from '../models/Menu';
 import { Permission } from '../models/Permission';
 import { Role } from '../models/Role';
 import { User } from '../models/User';
 
-const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: 'host.docker.internal',
-  port: 5432,
-  username: 'fatkha',
-  password: 'pass',
-  database: 'minehaul_express',
-  entities: [User, Role, Permission, Group, Menu],
-  synchronize: true,
-});
-
 async function SeedDatabase() {
+  const db = new Database();
+  const AppDataSource = db.getDataSource();
   await AppDataSource.initialize();
 
   // Truncate all tables

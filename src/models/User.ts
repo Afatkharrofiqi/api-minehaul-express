@@ -31,7 +31,6 @@ export class User {
   }
 
   async comparePassword(password: string): Promise<boolean> {
-    console.log({ passdb: this.password });
     return await bcrypt.compare(password, this.password);
   }
 

@@ -14,9 +14,7 @@ export class UserController extends BaseController {
     try {
       const username = req.user?.username || '';
       const result = await this.userService.me(username);
-      if (result === null) {
-        return ResponseHandler.success(res, result, 'User not found');
-      }
+
       return ResponseHandler.success(
         res,
         result,

@@ -7,7 +7,7 @@ export class UserService {
 
   async me(username: string) {
     const userRepo = this.dataSource.getRepository(User);
-    return await userRepo.findOne({
+    const result = await userRepo.findOne({
       where: {
         username,
       },
@@ -17,5 +17,11 @@ export class UserService {
         'permissions',
       ],
     });
+
+    if (!result) {
+      throw new Error('User not found');
+    }
+
+    return result;
   }
 }

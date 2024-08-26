@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 export class DatabaseConfig {
   public static readonly type: 'postgres' =
     (process.env.DB_TYPE as 'postgres') || 'postgres';
