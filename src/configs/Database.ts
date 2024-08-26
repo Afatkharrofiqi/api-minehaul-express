@@ -1,6 +1,6 @@
+import path from 'path';
 import { DataSource } from 'typeorm';
 
-import { User } from '../models/User';
 import { DatabaseConfig } from './DatabaseConfig';
 
 export class Database {
@@ -14,7 +14,7 @@ export class Database {
       username: DatabaseConfig.username,
       password: DatabaseConfig.password,
       database: DatabaseConfig.database,
-      entities: [User],
+      entities: [path.join(__dirname, '../models/*.{ts,js}')],
       synchronize: DatabaseConfig.synchronize,
     });
   }

@@ -8,8 +8,14 @@ export class UserService {
   async me(username: string) {
     const userRepo = this.dataSource.getRepository(User);
     return await userRepo.findOne({
-      where: { username },
-      select: ['id', 'username'],
+      where: {
+        username,
+      },
+      relations: [
+        'groups.roles.permissions',
+        'roles.permissions',
+        'permissions',
+      ],
     });
   }
 }

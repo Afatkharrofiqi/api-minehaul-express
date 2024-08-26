@@ -24,6 +24,7 @@ export class Bootstrap {
   }
 
   public init(): App {
+    const router = Router();
     const dataSource = this.db.getDataSource();
     const authService = new AuthService(dataSource);
     const userService = new UserService(dataSource);
@@ -33,11 +34,11 @@ export class Bootstrap {
     const userController = new UserController(userService);
     const mqttController = new MqttController(mqttService);
 
-    const authRoute = new AuthRoute(authController, Router());
-    const userRoute = new UserRoute(userController, Router());
-    const mqttRoute = new MqttRoute(mqttController, Router());
+    const authRoute = new AuthRoute(authController, router);
+    const userRoute = new UserRoute(userController, router);
+    const mqttRoute = new MqttRoute(mqttController, router);
 
-    const apiRouter = new ApiRouter(authRoute, userRoute, mqttRoute, Router());
+    const apiRouter = new ApiRouter(authRoute, userRoute, mqttRoute, router);
 
     const app = new App(express(), apiRouter, dataSource, mqttService);
 

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { MqttController } from '../../controllers/MqttController';
+import { AuthMiddleware } from '../../middlewares/AuthMiddleware';
 
 export class MqttRoute {
   constructor(
@@ -11,8 +12,16 @@ export class MqttRoute {
   }
 
   private initializeRoutes(): void {
-    this.router.post('/subscribe', this.mqttController.subscribeToTopic);
-    this.router.post('/publish', this.mqttController.publishToTopic);
+    this.router.post(
+      '/subscribe',
+      AuthMiddleware.verifyToken,
+      this.mqttController.subscribeToTopic
+    );
+    this.router.post(
+      '/publish',
+      AuthMiddleware.verifyToken,
+      this.mqttController.publishToTopic
+    );
   }
 
   public getRouter() {

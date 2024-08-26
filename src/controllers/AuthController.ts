@@ -16,7 +16,8 @@ export class AuthController extends BaseController {
     try {
       const result = await this.authService.register(
         req.body.username,
-        req.body.password
+        req.body.password,
+        req.body.email
       );
       return ResponseHandler.success(
         res,

@@ -6,7 +6,7 @@ import { JWT } from '../utils/JWT';
 export class AuthService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async register(username: string, password: string) {
+  async register(username: string, password: string, email: string) {
     const userRepo = this.dataSource.getRepository(User);
 
     // Check if the user already exists
@@ -18,6 +18,7 @@ export class AuthService {
     const user = new User();
     user.username = username;
     user.password = password;
+    user.email = email;
 
     await userRepo.save(user);
 
@@ -38,7 +39,10 @@ export class AuthService {
 
   async login(username: string, password: string) {
     const userRepo = this.dataSource.getRepository(User);
-    const user = await userRepo.findOneBy({ username });
+    const user = await userRepo.findOne({
+      where: { username },
+      select: ['id', 'username', 'password'],
+    });
 
     if (!user || !(await user.comparePassword(password))) {
       throw new Error('Invalid credentials');

@@ -13,7 +13,7 @@ interface ErrorResponse {
   details?: Record<string, unknown>;
   detail?: {
     message: string;
-    stack?: string;
+    stack?: string | string[];
   };
 }
 
@@ -68,7 +68,10 @@ export class ResponseHandler {
         type: 'error',
         detail: {
           message: error.message,
-          stack: AppConfig.nodeEnv === 'development' ? error.stack : undefined,
+          stack:
+            AppConfig.nodeEnv === 'development'
+              ? error.stack?.split('\n')
+              : undefined,
         },
       };
     } else {
