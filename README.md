@@ -64,6 +64,11 @@ This is a Node.js backend application built with Express.js and TypeScript, desi
     npm run start:dev 
     ```
 
+5. Run the seeder:
+    ```bash
+    npm run seed
+    ```
+
 ## Docker Deployment
 
 1. Build and run the containers:
