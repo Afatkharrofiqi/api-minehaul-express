@@ -15,20 +15,12 @@ import { MqttService } from './services/MqttService';
 import { UserService } from './services/UserService';
 
 export class Bootstrap {
-  private db: Database;
-  private mqttConfig: MqttConfig;
-
-  constructor() {
-    this.db = new Database();
-    this.mqttConfig = new MqttConfig();
-  }
-
-  public init(): App {
+  public async init(): Promise<App> {
     const router = Router();
-    const dataSource = this.db.getDataSource();
-    const authService = new AuthService(dataSource);
-    const userService = new UserService(dataSource);
-    const mqttService = new MqttService(this.mqttConfig.brokerUrl);
+    const dataSource = new Database();
+    const authService = new AuthService(dataSource.getDataSource());
+    const userService = new UserService(dataSource.getDataSource());
+    const mqttService = new MqttService(MqttConfig.getBrokerUrl());
 
     const authController = new AuthController(authService);
     const userController = new UserController(userService);
@@ -45,9 +37,10 @@ export class Bootstrap {
     return app;
   }
 
-  public start() {
-    const app = this.init();
+  public async start(): Promise<void> {
+    const app = await this.init();
     app.serve();
+    app.serveMqtt();
   }
 }
 

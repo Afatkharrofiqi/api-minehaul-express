@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ZodSchema } from 'zod';
+
 import { ResponseHandler } from './ResponseHandler';
 
 export class RequestValidator {

@@ -2,7 +2,6 @@ import path from 'path';
 import { DataSource } from 'typeorm';
 
 import { DatabaseConfig } from './DatabaseConfig';
-
 export class Database {
   private dataSource: DataSource;
 
@@ -19,7 +18,7 @@ export class Database {
     });
   }
 
-  public async initialize() {
+  public async connect() {
     try {
       await this.dataSource.initialize();
       console.log('Database connection established successfully.');

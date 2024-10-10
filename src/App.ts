@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
-import { DataSource } from 'typeorm';
 
 import { AppConfig } from './configs/AppConfig';
+import { Database } from './configs/Database';
 import { RequestLogger } from './middlewares/RequestLogger';
 import { ApiRouter } from './routes/ApiRouter';
 import { MqttService } from './services/MqttService';
@@ -10,13 +10,12 @@ export class App {
   constructor(
     private readonly app: Application,
     private readonly apiRouter: ApiRouter,
-    private readonly dataSource: DataSource,
+    private readonly dataSource: Database,
     private readonly mqttService: MqttService
   ) {
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeDatabase();
-    this.initializeMqtt();
   }
 
   private initializeMiddlewares(): void {
@@ -35,14 +34,14 @@ export class App {
 
   private async initializeDatabase(): Promise<void> {
     try {
-      await this.dataSource.initialize();
+      await this.dataSource.connect();
       console.log('Database connected successfully');
     } catch (error) {
       console.error('Failed to connect to the database:', error);
     }
   }
 
-  private initializeMqtt(): void {
+  public serveMqtt(): void {
     this.mqttService.listen();
   }
 
